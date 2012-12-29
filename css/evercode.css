@@ -1,0 +1,11 @@
+/*  evercode
+-------------------
+*/      
+.snippet {
+  padding: 7px;
+  border-bottom: 1px solid #ccc;
+}
+.highlight {
+  font-weight: bold;
+  background: yellow;
+}
