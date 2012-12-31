@@ -1,9 +1,27 @@
+window.log = function(str){
+	console.log(str);
+
+}
+var servicesUrl = '/services.php';
 var app = angular.module('evercode', []);
 
 function SnippetListCtrl($scope, $http) {
-  $http.get('snips.json').success(function(data) {
-    $scope.snippets = data;
-  });  
+	var $defer = $http.get(servicesUrl+'/snippets');
+	 
+	$defer.success(function (data) { 
+		$scope.snippets = data;
+		$scope.snippetsLoaded = true;
+
+	})
+	$defer.error(function () { 
+		log('gulp!'); 
+		$scope.snippetsLoaded = false;
+	});
+
+
+	$scope.getSnippets = function(){
+		return $scope.snippets;
+	};
 }
 
 function hiliter(word, element) {

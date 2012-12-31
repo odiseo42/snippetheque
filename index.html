@@ -2,7 +2,7 @@
 <html lang="en" ng-app="evercode">
   <head>
     <meta charset="utf-8">
-    <title>Sticky footer &middot; Twitter Bootstrap</title>
+    <title>Snippethèque</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -98,6 +98,9 @@
                 {{snippet.content}}
               </div>                                                     
             </div>
+            <div class="snippets-error" ng-show="!snippetsLoaded">
+                <h3>Sorry, there was an error when we tried to retrived your snippets. Sorry about that :/<h3>                                  
+            </div>            
             <!--Body content-->
           </div>
         </div>        
