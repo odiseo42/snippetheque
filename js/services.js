@@ -3,9 +3,11 @@
 /* Services */
 
 
-angular.module('phonecatServices', ['ngResource']).
-    factory('Phone', function($resource){
-  return $resource('phones/:phoneId.json', {}, {
-    query: {method:'GET', params:{phoneId:'phones'}, isArray:true}
-  });
-});
+var services = angular.module('snippsServices', ['ngResource']);
+
+services.factory('Snippet', function($resource){
+		return $resource('services.php/snippets/:term', {}, {
+    		query: {method:'GET'},
+  		});
+	}
+); 

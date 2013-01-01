@@ -1,5 +1,6 @@
-var app = angular.module('snippetheque', []);
+'use strict';
 
+/* Directives */
 
 app.directive('snippet', ['$compile', function() {
   var directiveDefinitionObject = {
@@ -7,7 +8,7 @@ app.directive('snippet', ['$compile', function() {
     	window.setTimeout(function(){
 		  $scope.$parent.$watch('query',function(newVal, oldVal){
 		  	if(newVal != oldVal){
-				console.log('newVal:'+newVal+', oldVal:'+oldVal);
+				// console.log('newVal:'+newVal+', oldVal:'+oldVal);
 				var regex;
 				$(element).highlightRegex();
 				try { 
@@ -18,9 +19,9 @@ app.directive('snippet', ['$compile', function() {
 				}
 
 				if (typeof regex !== 'undefined') {
-					console.log(regex);
+					// console.log(regex);
 					$(element).highlightRegex(regex);
-					console.log('poniendo coso');
+					// console.log('poniendo coso');
 				}
 		  	}
 		  });

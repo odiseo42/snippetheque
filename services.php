@@ -20,17 +20,39 @@ $db = new NotORM($pdo);
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
 // add new Route 
-$app->get("/snippets", function () use ($app, $db) {
-    $snippets = array();
-    foreach ($db->snippets() as $snipp) {
-        $snippets[]  = array(
+$app->get("/snippets/", function () use ($app, $db) {
+    $snippets = $db->snippets()
+        ->order("timestamp DESC")
+        ->limit(5);
+
+    $res = array();
+    foreach ($snippets as $snipp) {
+        $res[$snipp["id"]]  = array(
             "id" => $snipp["id"],
             "content" => $snipp["content"],
         );
     }
     $app->response()->header("Content-Type", "application/json");
-    echo json_encode($snippets);
+    echo json_encode($res);
 });
+
+$app->get("/snippets/:query", function ($query) use ($app, $db) {
+    $snippets = $db->snippets()
+        ->where("content LIKE ?", "%$query%")
+        ->limit(5);
+
+    $res = array();
+    foreach ($snippets as $snipp) {
+        
+        $res[$snipp["id"]]  = array(
+            "id" => $snipp["id"],
+            "content" => $snipp["content"],
+        );
+    }
+    $app->response()->header("Content-Type", "application/json");
+    echo json_encode($res);
+});
+
 
 $app->get("/snippet/:id", function ($id) use ($app, $db) {
     $app->response()->header("Content-Type", "application/json");
@@ -49,21 +71,6 @@ $app->get("/snippet/:id", function ($id) use ($app, $db) {
     }
 });
 
-$app->get("/query/:query", function ($query) use ($app, $db) {
-	$snippets = $db->snippets()
-	    ->where("content LIKE ?", "%$query%")
-	    ->limit(10)
-	;
-    $res = array();
-    foreach ($snippets as $snipp) {
-        $res[]  = array(
-            "id" => $snipp["id"],
-            "content" => $snipp["content"],
-        );
-    }
-    $app->response()->header("Content-Type", "application/json");
-    echo json_encode($res);
-});
 
 $app->post("/snippet", function () use($app, $db) {
     $app->response()->header("Content-Type", "application/json");
