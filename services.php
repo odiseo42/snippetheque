@@ -16,7 +16,12 @@ try {
     $db = new NotORM($pdo);
 }
 catch(PDOException $e){
+    //echo $e->getMessage();
+    //$app->stop();
+    $app->response()->header("Content-Type", "application/json");
+    $app->response()->status(500);
     echo $e->getMessage();
+    exit;
 }
 
 $app->get("/snippets/(:query)", function ($query="") use ($app, $db) {
