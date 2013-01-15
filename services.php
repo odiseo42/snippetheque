@@ -1,11 +1,6 @@
 <?php
 /**
- * Step 1: Require the Slim Framework
- *
- * If you are not using Composer, you need to require the
- * Slim Framework and register its PSR-0 autoloader.
- *
- * If you are using Composer, you can skip this step.
+ * Using  Slim Framework - a microframework for web services
  */
 require 'Slim/Slim.php';
 require "NotORM.php";
@@ -21,12 +16,8 @@ try {
     $db = new NotORM($pdo);
 }
 catch(PDOException $e){
-    $app->error();
+    echo $e->getMessage();
 }
-catch(Exception $e){
-    $app->error();
-}
-
 
 $app->get("/snippets/(:query)", function ($query="") use ($app, $db) {
     $snippets = $db->snippets();
@@ -72,10 +63,6 @@ $app->post("/snippet", function () use($app, $db) {
     $userid = $req->post('userid');
     $result = $db->snippets->insert(array('content'=>$content, 'userid' =>$userid));
     echo json_encode(array("id" => $result["id"]));
-});
-
-$app->error(function (\Exception $e) use ($app) {
-    $app->render('serviceError.php');
 });
 
 // run the Slim app
