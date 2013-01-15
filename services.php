@@ -16,7 +16,7 @@ $app->error(function (\Exception $e) use ($app) {
 try {
     $dsn = 'mysql:host=localhost;dbname=snippet';
     $username = 'root';
-    $password = '';
+    $password = 'root';
     $pdo = new PDO($dsn, $username, $password);    
     $db = new NotORM($pdo);
 }
@@ -25,7 +25,7 @@ catch(PDOException $e){
  
 }
 
-$app->get("/snippets/(:query)", function ($query="") use ($app, $db) {
+$app->get("/snippets(/:query)", function ($query="") use ($app, $db) {
     $snippets = $db->snippets();
     $snippets->order("timestamp DESC");
     $snippets->limit(5);
