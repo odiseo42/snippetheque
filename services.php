@@ -7,6 +7,11 @@ require "NotORM.php";
 
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
+$app->error(function (\Exception $e) use ($app) {
+    echo $e->getMessage();
+    $app->stop();
+});
+
 
 try {
     $dsn = 'mysql:host=localhost;dbname=snippet';
@@ -16,12 +21,8 @@ try {
     $db = new NotORM($pdo);
 }
 catch(PDOException $e){
-    //echo $e->getMessage();
-    //$app->stop();
-    $app->response()->header("Content-Type", "application/json");
-    $app->response()->status(500);
-    echo $e->getMessage();
-    exit;
+    $app->error($e);
+ 
 }
 
 $app->get("/snippets/(:query)", function ($query="") use ($app, $db) {
