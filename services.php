@@ -23,6 +23,9 @@ try {
 catch(PDOException $e){
     $app->error();
 }
+catch(Exception $e){
+    $app->error();
+}
 
 
 $app->get("/snippets/(:query)", function ($query="") use ($app, $db) {
