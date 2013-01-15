@@ -1,41 +1,48 @@
 function SnippetListCtrl($scope, Snippet) {
 
 	//empty query return latest snippets
-	$scope.snippets = Snippet.query();
+	$scope.snippets = [];
+	$scope.loadedIds = [];
+	$scope.failedToLoadSnippets = false;
 
-	$scope.$watch('queryTerm',function(search){	
-		Snippet.query({term: search}, function(res) {
-			$scope.appendSnipp(res);
-			$scope.loadedIds = $scope.getLoadedIds();
-		});
-		
-		//$scope.snippets = Snippet.query({term: search});
+	Snippet.get({}, function(snippets){
+		$scope.refreshSnippets(snippets);
+	}, function(){$scope.failedToLoadSnippets = true;});
 
-		log($scope.snippets);
+
+	$scope.$watch('queryTerm', function( val ){
+		if( val && val.length > 2 ){
+
+			Snippet.query({method:'POST', term: val, isArray:true}, 
+				function(snippets) { //success
+					$scope.refreshSnippets(snippets);
+				},
+				function(){ //error
+					$scope.failedToLoadSnippets = true;
+				});		
+
+		}
 	});
 
-
-	$scope.getLoadedIds = function(){
-		var ids = [];
-		for(var i in $scope.snippets) {
-			if(!isNaN(i) ){
-				ids.push(i);
+	$scope.refreshSnippets = function(snippets){
+		for( i in snippets ){
+			var snip_id = snippets[i].id;
+			if( !isIdLoaded(snip_id) ){
+				$scope.loadedIds.push(snip_id);		
+				$scope.snippets.push(snippets[i]);
+				$scope.failedToLoadSnippets = false;
 			}
 		}
-		return ids;
 	};
 
-	$scope.appendSnipp = function(res){
-		if($scope.snippets){
-			for(var i in res) {
-				if(!isNaN(i) && !(i in $scope.snippets)){
-					//log(res[i]);
-					$scope.snippets[i] = res[i];
-				}
-			}			
+	function isIdLoaded(id){
+		for(var i = 0; i < $scope.loadedIds.length; i++){
+			if($scope.loadedIds[i] == id){
+				return true;
+			}
 		}
-	};
-
+		return false;
+	}
 
 }
 

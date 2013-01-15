@@ -6,4 +6,4 @@ window.log = function(str){
 var servicesUrl = '/services.php';
 
 /* App Module */
-var app = angular.module('snippetheque', ['snippsServices']);
+var app = angular.module( 'snippetheque', ['snippsServices', 'snippetFilters'] );

@@ -10,37 +10,28 @@
 require 'Slim/Slim.php';
 require "NotORM.php";
 
-$dsn = 'mysql:host=localhost;dbname=snippet';
-$username = 'root';
-$password = 'root';
-$pdo = new PDO($dsn, $username, $password);
-$db = new NotORM($pdo);
-
-
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
-// add new Route 
-$app->get("/snippets/", function () use ($app, $db) {
-    $snippets = $db->snippets()
-        ->order("timestamp DESC")
-        ->limit(5);
 
-    $res = array();
-    foreach ($snippets as $snipp) {
-        $res[$snipp["id"]]  = array(
-            "id" => $snipp["id"],
-            "content" => $snipp["content"],
-        );
+try {
+    $dsn = 'mysql:host=localhost;dbname=snippet';
+    $username = 'root';
+    $password = '';
+    $pdo = new PDO($dsn, $username, $password);    
+    $db = new NotORM($pdo);
+}
+catch(PDOException $e){
+    $app->error();
+}
+
+
+$app->get("/snippets/(:query)", function ($query="") use ($app, $db) {
+    $snippets = $db->snippets();
+    $snippets->order("timestamp DESC");
+    $snippets->limit(5);
+    if($query){
+        $snippets->where("content LIKE ?", "%$query%");
     }
-    $app->response()->header("Content-Type", "application/json");
-    echo json_encode($res);
-});
-
-$app->get("/snippets/:query", function ($query) use ($app, $db) {
-    $snippets = $db->snippets()
-        ->where("content LIKE ?", "%$query%")
-        ->limit(5);
-
     $res = array();
     foreach ($snippets as $snipp) {
         
@@ -54,7 +45,7 @@ $app->get("/snippets/:query", function ($query) use ($app, $db) {
 });
 
 
-$app->get("/snippet/:id", function ($id) use ($app, $db) {
+$app->get("/snippetById/:id", function ($id) use ($app, $db) {
     $app->response()->header("Content-Type", "application/json");
     $snippet = $db->snippets()->where("id", $id);
     if ($data = $snippet->fetch()) {
@@ -71,7 +62,6 @@ $app->get("/snippet/:id", function ($id) use ($app, $db) {
     }
 });
 
-
 $app->post("/snippet", function () use($app, $db) {
     $app->response()->header("Content-Type", "application/json");
     $snippet = $app->request()->post();
@@ -79,6 +69,10 @@ $app->post("/snippet", function () use($app, $db) {
     $userid = $req->post('userid');
     $result = $db->snippets->insert(array('content'=>$content, 'userid' =>$userid));
     echo json_encode(array("id" => $result["id"]));
+});
+
+$app->error(function (\Exception $e) use ($app) {
+    $app->render('serviceError.php');
 });
 
 // run the Slim app

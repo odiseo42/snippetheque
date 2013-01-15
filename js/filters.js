@@ -2,8 +2,11 @@
 
 /* Filters */
 
-angular.module('snippetFilters', []).filter('checkmark', function() {
-  return function(input) {
-    return input ? '\u2713' : '\u2718';
+angular.module('snippetFilters', []).filter('snippSort', function() {
+  return function(input, mod) {
+  	log('filter input is');
+  	log(input);
+  	log(mod)
+    return input;
   };
 });

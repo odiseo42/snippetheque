@@ -3,11 +3,12 @@
 /* Services */
 
 
-var services = angular.module('snippsServices', ['ngResource']);
+var services = angular.module( 'snippsServices', ['ngResource'] );
 
-services.factory('Snippet', function($resource){
+services.factory('Snippet', function( $resource ){
 		return $resource('services.php/snippets/:term', {}, {
-    		query: {method:'GET'},
+    		get: {method:'GET', isArray:true}
+
   		});
 	}
 ); 

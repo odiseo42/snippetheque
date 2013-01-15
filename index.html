@@ -21,6 +21,8 @@
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
     <script src="js/directives.js"></script>   
+    <script src="js/filters.js"></script>   
+
      
     <style type="text/css">
 
@@ -101,13 +103,12 @@
           <div class="span12">
             <span ng-show="queryTerm">Your search <b>'{{queryTerm}}'</b></span>
             <div>{{loadedIds}}</div>
-
             <div class="snippets-container">
-              <div class="snippet" snippet="true" ng-repeat="snippet in snippets  | filter:queryTerm">
-                {{snippet.content}}
+              <div class="snippet" snippet="true" ng-repeat="snippet in snippets  | filter: queryTerm">
+                <b>{{snippet.id}}</b> {{snippet.content}}
               </div>                                                     
             </div>
-            <div snippet class="snippets-error" ng-hide="true">
+            <div class="snippets-error" ng-show="failedToLoadSnippets">
                 <h3>There was an error when we tried to retrived your snippets. Sorry about that :/<h3>                                  
             </div>            
             <!--Body content-->
