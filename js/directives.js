@@ -30,3 +30,26 @@ app.directive('snippet', ['$compile', function() {
   };
   return directiveDefinitionObject;
 }]);
+
+app.directive('addNewSnippet', ['$compile', function() {
+  var directiveDefinitionObject = {
+  	templateUrl: '/templates/addNewSnippet.html',
+    link: function postLink($scope, element, attrs) {
+    	$scope.editing = false;
+    	// $(element).bind('click', function(){
+    	// 	alert('clicked');
+    	// });
+    }
+  };
+  return directiveDefinitionObject;
+}]);
+
+app.directive('ngEnter', function() {
+    return function(scope, element, attrs) {
+        element.bind('keypress', function(e) {
+            if (e.charCode === 13 || e.keyCode ===13 ) {
+              scope.$apply(attrs.ngEnter);
+            }
+        });
+    };
+});   

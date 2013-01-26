@@ -96,16 +96,17 @@
         </div>
         <p class="lead">Save and easily search across your code snippets</p>
         <form class="form-search">
-          <input class="input-block-level" type="text" placeholder="Search" ng-model="queryTerm">
+          <input class="input-block-level search-query" type="text" placeholder="Search" ng-model="queryTerm">
         </form>      
         <hr> 
         <div class="row-fluid">
           <div class="span12">
             <span ng-show="queryTerm">Your search <b>'{{queryTerm}}'</b></span>
+            <div add-new-snippet>+Add a new snippet</div>
             <div>{{loadedIds}}</div>
             <div class="snippets-container">
               <div class="snippet" snippet="true" ng-repeat="snippet in snippets  | filter: queryTerm">
-                <b>{{snippet.id}}</b> {{snippet.content}}
+                <pre>{{snippet.content}}</pre>
               </div>                                                     
             </div>
             <div class="snippets-error" ng-show="failedToLoadSnippets">
