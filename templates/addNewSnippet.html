@@ -1,0 +1,9 @@
+<div>
+	<div class="editing-area" ng-show="editing">
+		<textarea rows="4" ng-model="snippet" class="input-block-level" ></textarea>
+		<button type="button" class="btn btn-primary" ng-click="addSnippet(snippet)">Add</button>
+		<button type="button" ng-click="editing=false" class="btn" >Hide</button>
+
+	</div>
+	 <button class="btn btn-primary" type="button" ng-show="!editing" ng-click="editing=true"><i class="icon-pencil icon-white"></i> Add a code snippet!</button>
+</div>
