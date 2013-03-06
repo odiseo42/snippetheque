@@ -1,0 +1,5 @@
+<ul class="snippets-field">
+	<li class="snippet" snippet="true" ng-repeat="snippet in snippets  | filter: queryTerm | orderBy: 'id':true " ng-class="{'ui-animate': false}">
+	 	<pre>{{snippet.content}}</pre>
+	</li>
+</ul>

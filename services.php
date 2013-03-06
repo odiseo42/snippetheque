@@ -24,32 +24,48 @@ catch(PDOException $e){
     $app->error($e);
  
 }
-
-$app->get("/userid/:userid(/query(/:query))", function ($userid=0, $query="") use ($app, $db) {
+//$app->get("/userid/:userid(/query(/:query(/lastid(/:id))))"
+$app->get("/userid/:userid/query(/:query)/lastid(/:lastid)", function ($userid="", $query="", $lastid="") use ($app, $db) {
     $snippets = $db->snippets();
-    $snippets->order("timestamp DESC");
+    $snippets->order("id DESC");
     $snippets->limit(5);
-    $snippets->where("user_id = ?", "$userid");
+
+    
+    if(is_numeric($userid)){
+        $snippets->where("user_id = ?", "$userid");        
+    }   
+    else{
+        $app->error();
+    } 
+
     if($query!=""){
         $snippets->where("content LIKE ?", "%$query%");
     }
+
+
+    if(is_numeric($lastid)){
+        $snippets->where("id < ?", $lastid);        
+    }
+
     $res = array();
     foreach ($snippets as $snipp) {
-        
         $res[$snipp["id"]]  = array(
             "id" => $snipp["id"],
             "content" => $snipp["content"],
-        );
+        );            
     }
     $app->response()->header("Content-Type", "application/json");
     echo json_encode($res);
 });
 
-$app->post("/userid/:userid(/query)", function ($userid) use($app, $db) {
+$app->post("/userid/:userid(/query/lastid)", function ($userid) use($app, $db) {
     $req = $app->request();
-    $data = json_decode($req->getBody());
+    $data = json_decode($req->getBody(), true);
 
-    $content = $data->content;
+    $conteny = "";
+    if(!empty($data)){
+        $content = $data['content'];
+    }
 
     $result = $db->snippets->insert(array('content'=>$content, 'user_id' =>$userid));
 
@@ -63,10 +79,7 @@ $app->post("/userid/:userid(/query)", function ($userid) use($app, $db) {
         echo json_encode($res);
     }
     else{
-        echo json_encode(array(
-            "status" => false,
-            "message" => "Snippet not inserted"
-            ));
+        $app->error();
     }
 });
 

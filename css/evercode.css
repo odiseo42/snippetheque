@@ -1,10 +1,120 @@
+  /* Sticky footer styles
+  -------------------------------------------------- */
+
+  html,
+  body {
+    height: 100%;
+    /* The html and body elements cannot have any padding or margin. */
+  }
+
+  /* Wrapper for page content to push down footer */
+  #wrap {
+    min-height: 80%;
+    height: auto !important;
+    height: 100%;
+    /* Negative indent footer by it's height */
+    margin: 0 auto -60px;
+  }
+
+  /* Set the fixed height of the footer here */
+  #push,
+  #footer {
+    height: 60px;
+  }
+  #footer {
+    text-align: center;
+    padding: 10px 0px 30px 0px;
+    margin-top: 50px;
+    border-top: 1px solid #e5e5e5;
+    background-color: #f5f5f5;
+  }
+
+.footer-links {
+  margin: 10px 0;
+}
+
+.footer-links li {
+  display: inline;
+  padding: 0 2px;
+}
+
+  /* Lastly, apply responsive CSS fixes as necessary */
+  @media (max-width: 767px) {
+    #footer {
+      margin-left: -20px;
+      margin-right: -20px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+
+
+
+  /* Custom page CSS
+  -------------------------------------------------- */
+  /* Not required for template or sticky footer method. */
+
+  .container {
+    width: auto;
+    max-width: 680px;
+  }
+  .container .credit {
+    margin: 20px 0;
+  }
+
+
 /*  evercode
 -------------------
 */      
 .snippet {
-  padding: 7px;
+	padding-bottom: 7px;
 }
 .highlight {
-  font-weight: bold;
-  background: yellow;
+	font-weight: bold;
+	background: yellow;
+}
+
+.new-snippet-area{
+	padding-bottom: 15px;
+}
+
+/* ui-reset */
+.ui-resetwrap{position:relative;display:inline-block; width: 100%;}
+.ui-reset{position:absolute;top:2px;right:6px;z-index:2;display:none;height:100%;cursor:pointer}
+.ui-resetwrap:hover .ui-reset{display:block}
+.ui-reset {
+	width: 14px;
+	height: 14px;
+	margin: 5px;
+	*margin-right: .3em;
+	line-height: 14px;
+	vertical-align: text-top;
+	background-image: url("/img/glyphicons-halflings.png");
+	background-position: 14px 14px;
+	background-repeat: no-repeat;
+    background-position: -48px -96px;
+}
+
+/* highlight */
+.ui-match{background:yellow}
+
+/* animate */
+
+
+ul.snippets-field {
+	margin: 0px;
+}
+li {
+  transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  overflow: hidden;
+  padding: 0px;
+}
+/* The 'hidden' state to transition from & to */
+li.ui-animate {
+  opacity: 0;
+  max-height: 0;
+  padding: 0 5px;
 }

@@ -6,7 +6,7 @@ app.directive('snippetsField', ['$compile', function() {
     var directiveDefinitionObject = {
         priority: 100,
         replace: true,
-        templateUrl: 'templates/directives/snippetsField.html',
+        templateUrl: 'app/templates/directives/snippetsField.html',
         scope: {
             'snippets' : '=',
             'queryTerm' : '='
@@ -57,7 +57,7 @@ app.directive('snippet', ['$compile', function() {
 
 app.directive('addNewSnippet', ['$compile', function() {
     var directiveDefinitionObject = {
-        templateUrl: 'templates/directives/addNewSnippet.html',
+        templateUrl: 'app/templates/directives/addNewSnippet.html',
         link: function postLink($scope, element, attrs) {
             $scope.editing = false;
             $scope.focusArea = function(){
@@ -75,7 +75,7 @@ app.directive('addNewSnippet', ['$compile', function() {
 app.directive('searchBar', ['$compile', function() {
     var directiveDefinitionObject = {
         replace: true,
-        templateUrl: 'templates/directives/searchBar.html',
+        templateUrl: 'app/templates/directives/searchBar.html',
         link: function postLink($scope, element, attrs) {
         }
     };
