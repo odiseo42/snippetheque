@@ -1,12 +1,15 @@
 <div class="row-fluid" ng-controller="SnippetListCtrl">
   <div class="span12">
+    <div ng-hide="failedToLoadSnippets">
         <input type="text" search-bar />
         <div add-new-snippet class="new-snippet-area"></div>
         <span ng-show="queryTerm">Your search <b>'{{queryTerm}}'</b></span>            
         <div snippets-field snippets="snippets" query-term="queryTerm"></div>
         <button class="btn btn-block" type="button" ng-click="loadMore()">Load more <span ng-show="queryTerm">search results</span></button>
-        <div class="snippets-error" style="display:none;" ng-show="failedToLoadSnippets">
-            <h3>There was an error when we tried to retrived your snippets. Sorry about that :/<h3>
-        </div>          
+    </div>
+
+    <div class="snippets-error alert alert-error" style="display:none;" ng-show="failedToLoadSnippets">
+      <h3>There was an error when we tried to retrived your snippets. Sorry about that :/<h3>
+    </div>  
   </div>
 </div> 
