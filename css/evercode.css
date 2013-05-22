@@ -1,3 +1,5 @@
+ @import url('//fonts.googleapis.com/css?family=Lobster|Cabin:400,700');/*!
+
   /* Sticky footer styles
   -------------------------------------------------- */
 
@@ -117,4 +119,13 @@ li.ui-animate {
   opacity: 0;
   max-height: 0;
   padding: 0 5px;
+}
+
+h1.snippetheque-title {
+  margin: 10px 0;
+  font-family: 'Lobster',cursive;
+  font-weight: normal;
+  line-height: 20px;
+  color: inherit;
+  text-rendering: optimizelegibility;
 }
